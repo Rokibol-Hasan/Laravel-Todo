@@ -37,9 +37,11 @@ class TodoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'title' => 'required|unique:todos,todo',
             'todo' => 'required|unique:todos,todo'
         ]);
         $todo = new Todo();
+        $todo->title = $request->title;
         $todo->todo = $request->todo;
         $todo->save();
         return redirect('todo');
@@ -53,7 +55,8 @@ class TodoController extends Controller
      */
     public function show($id)
     {
-        //
+        $todo = Todo::find($id);
+        return view('todo.show',compact('todo'));
     }
 
     /**
@@ -64,7 +67,8 @@ class TodoController extends Controller
      */
     public function edit($id)
     {
-        //
+        $todo = Todo::find($id);
+        return view('todo.edit',compact('todo'));
     }
 
     /**
@@ -76,7 +80,16 @@ class TodoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $todo = Todo::find($id);
+        $request->validate([
+            'title' => 'required',
+            'todo' => 'required'
+        ]);
+
+        $todo->title = $request->title;
+        $todo->todo = $request->todo;
+        $todo->update();
+        return redirect('todo')->with(['msg'=>'Updated Successfuly']);
     }
 
     /**
@@ -87,6 +100,8 @@ class TodoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $todo = Todo::find($id);
+        $todo->delete();
+        return redirect('todo')->with(['msg'=>'Deleted Successfully']);;
     }
 }
