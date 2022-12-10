@@ -19,10 +19,10 @@
                         <div class="d-flex ">
                             <ul class="\">
                                 <li class="">
-                                    <div class="mx-2">
-                                        <a class="" style="text-decoration: none;"
-                                            href="{{ route('todo.edit', $todo->id) }}"> edit </a>
-                                    </div>
+                                <div class="mx-2">
+                                    <a class="" style="text-decoration: none;"
+                                        href="{{ route('todo.edit', $todo->id) }}"> edit </a>
+                                </div>
                                 </li>
                                 <li class="">
                                     <div>
@@ -39,6 +39,8 @@
                     </div>
                 </div>
             @endforeach
+            {{ $todos->links('pagination::bootstrap-5') }}
+
         </ul>
     </div>
 @endsection
